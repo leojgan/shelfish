@@ -1,4 +1,4 @@
-export const CAMPSITES = [
+export const GAMES = [
     {
         id: 294514,
         name: "5-Minute Mystery",
@@ -9,7 +9,8 @@ export const CAMPSITES = [
         playTimeMin: 5,
         playTimeMax: 30,
         ageMin: 8,
-        complexity: 1.16
+        complexity: 1.16,
+        favorite: true,
     },
     {
         id: 230802,
@@ -21,7 +22,8 @@ export const CAMPSITES = [
         playTimeMin: 30,
         playTimeMax: 45,
         ageMin: 8,
-        complexity: 1.76
+        complexity: 1.76,
+        favorite: false,
     },
     {
         id: 521,
@@ -33,7 +35,8 @@ export const CAMPSITES = [
         playTimeMin: 30,
         playTimeMax: 30,
         ageMin: 8,
-        complexity: 1.24
+        complexity: 1.24,
+        favorite: true,
     },
     {
         id: 30549,
@@ -45,6 +48,7 @@ export const CAMPSITES = [
         playTimeMin: 45,
         playTimeMax: 45,
         ageMin: 8,
-        complexity: 2.4
+        complexity: 2.4,
+        favorite: false,
     }
 ];
