@@ -45,7 +45,7 @@ const Main = () => {
                 />
                 <Drawer.Screen name='Search' component={Search}
                     options={{
-                        title: 'Search BGG API', // Header / Drawer Name
+                        title: 'Search', // Header / Drawer Name
                         drawerIcon: ({ color }) => (
                             <Icon
                                 name='search'

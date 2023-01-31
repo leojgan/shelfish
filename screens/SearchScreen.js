@@ -20,7 +20,7 @@ const Search = () => {
 
     return(
         <View>
-            <Text>Search Screen Will Go Here</Text>
+            <Text>Search Board Game Atlas for games to add to your library:</Text>
             <Input
                 placeholder = 'game title'
                 onChangeText = {searchInput => setSearchInput(searchInput)}

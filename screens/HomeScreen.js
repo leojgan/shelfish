@@ -1,20 +1,22 @@
-import { useEffect } from 'react';
 import { FlatList, Text, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { Avatar, ListItem } from 'react-native-elements';
+import { useSelector } from 'react-redux';
 import Loading from '../components/LoadingComponent';
-
-import { Card } from '@rneui/themed';
 
 const Home = () => {
     const library = useSelector(state => state.library);
 
     const RenderLibraryItem = ({ item: game }) => {
-        const isFavorite = game.isFavorite ? 'Favorite' : 'Not a Favorite';
+        const players = game.min_players === game.max_players ? game.min_players : `${game.min_players}-${game.max_players}`;
+        const gameTime = game.min_playtime === game.max_playtime ? game.min_playtime : `${game.min_playtime}-${game.max_playtime}`;
         return (
-            <Card>
-                <Text>{game.title}</Text>
-                <Text>ID #: {game.id}; {isFavorite}</Text>
-            </Card>
+            <ListItem>
+                <Avatar rounded source = {{ uri: game.thumb_url }} />
+                <ListItem.Content>
+                    <ListItem.Title>{game.name}</ListItem.Title>
+                    <ListItem.Subtitle>Players: {players}  |  Time: {gameTime} min  |  Ages: {game.min_age}+</ListItem.Subtitle>
+                </ListItem.Content>
+            </ListItem>
         )
     }
 
@@ -31,7 +33,6 @@ const Home = () => {
 
     return(
         <View>
-            <Text>Will this ever work?</Text>
             <FlatList
                 data={library.libraryArray}
                 renderItem = {RenderLibraryItem}
