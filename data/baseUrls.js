@@ -1,8 +1,33 @@
 // local json server:
-export const baseUrl = 'http://192.168.1.168:3001/';
+const apiRoot = 'https://api.boardgameatlas.com/api/';
+const apiSearch = 'search?';
+const apiListId = 'list_id=eDRVqFJyIP' + '&'
+const searchFieldsArray = [
+    'id',
+    'url',
+    'name',
+    'year_published',
+    'min_players',
+    'max_players',
+    'min_playtime',
+    'max_playtime',
+    'min_age',
+    'thumb_url',
+    'image_url',
+    // 'mechanics',
+    // 'categories',
+    'description_preview'
+];
+const apiSearchFields = 'fields=' + searchFieldsArray.toString() + '&';
+const apiSortOrder = 'order_by=name' + '&';
+const apiClientId = 'client_id=Wckq3Hq5Er';
 
-// bggAPI addy:
-const bggBase = 'https://api.geekdo.com/xmlapi2/'
-export const bggSearch = bggBase + 'search?type=boardgame&query=';
-export const bggGameInfo = bggBase + 'thing?id='; //multiple ID's can be comma-separated for multiple returns
+/*
+apiGames = {
+    count: {total # of games in list},
+    games: [array of {game objects with props equal to values in searchFieldsArray}]
+}
+*/
 
+export const apiGames = apiRoot + apiSearch + apiListId + apiSearchFields + apiSortOrder + apiClientId;
+console.log(apiGames);
