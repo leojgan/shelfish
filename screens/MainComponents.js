@@ -6,27 +6,21 @@ import { fetchGames } from '../redux/slices/gamesSlice';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList } from "@react-navigation/drawer"
 import { createStackNavigator } from "@react-navigation/stack"
 import GamesList from './GamesList';
+import GameInfoScreen from './GameInfoScreen';
 import { Image } from '@rneui/themed';
-import { color } from 'react-native-reanimated';
+import { Icon } from '@rneui/base';
 
 const Drawer = createDrawerNavigator();
 
 const GamesListNavigator = () => {
     const Stack = createStackNavigator()
     return (
-        <Stack.Navigator screenOptions={screenOptions}>
-            <Stack.Screen name='GamesList' component={GamesList}
-                options={({ navigation })=>({
-                    title: 'Games Library',
-                    headerLeft: () => (
-                        <Icon
-                            name='home'
-                            type='font-awesome'
-                            iconStyle={ styles.stackIcon }
-                            onPress={ ()=> navigation.toggleDrawer() }
-                        />
-                    )
-                })}
+        <Stack.Navigator>
+            <Stack.Screen name='GamesList' component={GamesList} />
+            <Stack.Screen
+                name = 'GameInfo'
+                component = {GameInfoScreen}
+                options = { ({ route }) => ({ title: route.params.game.name})}
             />
         </Stack.Navigator>
     )
@@ -52,7 +46,7 @@ const Main = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchGames())
-    }, [dispatch])
+    }, [])
 
     return (
         <View style={{ flex: 1 , paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight }}>
@@ -62,9 +56,17 @@ const Main = () => {
                 drawerContent = {CustomDrawerContent}
                 screenOptions = {styles.screenHeader}
             >
-                <Drawer.Screen name='Games' component={GamesList}
+                <Drawer.Screen name='Games' component={GamesListNavigator}
                     options={{
                         title: 'Game Shelf', // Header / Drawer Name
+                        drawerIcon: ({ color }) => (
+                            <Icon
+                                name = 'th-list'
+                                type = 'font-awesome'
+                                size = {24}
+                                color = {color}
+                            />
+                        )
                     }}
                 />
             </Drawer.Navigator>
@@ -74,7 +76,7 @@ const Main = () => {
 
 const styles = StyleSheet.create({
     screenHeader: {
-        headerStyle: {backgroundColor: '#ED1F24'},
+        headerStyle: {backgroundColor: '#B91F22'},
         headerTintColor: '#E9EBE7',
         headerTitleAlign: 'center',
     },
