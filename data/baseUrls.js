@@ -22,12 +22,20 @@ const apiSearchFields = 'fields=' + searchFieldsArray.toString() + '&';
 const apiSortOrder = 'order_by=name' + '&';
 const apiClientId = 'client_id=Wckq3Hq5Er';
 
-/*
-apiGames = {
-    count: {total # of games in list},
-    games: [array of {game objects with props equal to values in searchFieldsArray}]
-}
-*/
+const apiCategoryUrl = 'game/categories?'
+const apiMechanicUrl = 'game/mechanics?'
 
-export const apiGames = apiRoot + apiSearch + apiListId + apiSearchFields + apiSortOrder + apiClientId;
+// export const apiGames = apiRoot + apiSearch + apiListId + apiSearchFields + apiSortOrder + apiClientId;
+export const apiGames = apiRoot + apiSearch + apiListId + apiSortOrder + apiClientId;
 console.log(apiGames);
+
+/*
+    each of the following return an array of objects:
+    {
+        id: unique alphanumeric key belonging to category / mechanic
+        name: name of category / mechanic
+        url: links to list of games that have that category / mechanic
+    }
+*/
+export const apiCategories = apiRoot + apiCategoryUrl + apiClientId;
+export const apiMechanics = apiRoot + apiMechanicUrl + apiClientId;

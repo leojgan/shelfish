@@ -1,9 +1,9 @@
 import Constants from 'expo-constants';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { fetchGames } from '../redux/slices/gamesSlice';
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList } from "@react-navigation/drawer"
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer"
 import { createStackNavigator } from "@react-navigation/stack"
 import GamesList from './GamesList';
 import GameInfoScreen from './GameInfoScreen';
@@ -13,16 +13,37 @@ import { Icon } from '@rneui/base';
 const Drawer = createDrawerNavigator();
 
 const GamesListNavigator = () => {
-    const Stack = createStackNavigator()
+    const [ isFavorite, setIsFavorite ] = useState(false);
+
+    const Stack = createStackNavigator();
     return (
-        <Stack.Navigator>
-            <Stack.Screen name='GamesList' component={GamesList} />
+        <Stack.Navigator
+            initialRouteName='GamesList'
+            screenOptions={screenOptions}
+        >
             <Stack.Screen
-                name = 'GameInfo'
-                component = {GameInfoScreen}
-                options = { ({ route }) => ({ title: route.params.game.name})}
+                name='GamesList'
+                component={GamesList}
+                options={{ headerShown: false }}
             />
-        </Stack.Navigator>
+            <Stack.Screen
+                name='GameInfo'
+                component={GameInfoScreen}
+                options={({ route }) => ({
+                    title: route.params.game.name,
+                    headerRight: () => (
+                        <Icon
+                            name= {isFavorite ? 'heart' : 'heart-o'}
+                            type='font-awesome'
+                            color='#FFF'
+                            marginRight={15}
+                            underlayColor='#ED1F24'
+                            onPress={() => setIsFavorite(!isFavorite)}
+                        />
+                    )
+                })}
+        />
+    </Stack.Navigator>
     )
 }
 
@@ -46,7 +67,7 @@ const Main = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchGames())
-    }, [])
+    }, [dispatch])
 
     return (
         <View style={{ flex: 1 , paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight }}>
@@ -56,14 +77,17 @@ const Main = () => {
                 drawerContent = {CustomDrawerContent}
                 screenOptions = {styles.screenHeader}
             >
-                <Drawer.Screen name='Games' component={GamesListNavigator}
+                <Drawer.Screen
+                    name='Games'
+                    component={GamesListNavigator}
                     options={{
                         title: 'Game Shelf', // Header / Drawer Name
                         drawerIcon: ({ color }) => (
                             <Icon
-                                name = 'th-list'
+                                name = 'home'
                                 type = 'font-awesome'
                                 size = {24}
+                                iconStyle={{ width: 28}}
                                 color = {color}
                             />
                         )
@@ -74,11 +98,30 @@ const Main = () => {
     )
 }
 
+const screenOptions = {
+    headerStyle:{
+        backgroundColor:'#ED1F24',
+    },
+    headerTintColor: '#FFF',
+    headerTitleAlign: 'center',
+};
+
+
 const styles = StyleSheet.create({
     screenHeader: {
         headerStyle: {backgroundColor: '#B91F22'},
-        headerTintColor: '#E9EBE7',
+        headerTintColor: '#FFF',
         headerTitleAlign: 'center',
+    },
+    stackHeader: {
+        headerStyle: {backgroundColor: '#E9EBE7'},
+        headerTintColor: '#C37D48',
+        headerTitleAlign: 'center'
+    },
+    stackIcon: {
+        marginLeft: 10,
+        color: '#fff',
+        fontSize: 24
     },
     drawerHeader: {
         backgroundColor: '#3B4055',

@@ -17,7 +17,7 @@ export const fetchGames = createAsyncThunk(
 
 const gamesSlice = createSlice({
     name: 'games',
-    initialState: { isLoading: true, errMess: null, gamesList: []},
+    initialState: { isLoading: true, errMess: null, gamesData: {}},
     reducers: {},
     extraReducers: {
         [fetchGames.pending]: (state) => {
@@ -25,8 +25,8 @@ const gamesSlice = createSlice({
         },
         [fetchGames.fulfilled]: (state, action) => {
             state.isLoading = false;
-            state,errMess = null;
-            state.gamesList = action.payload;
+            state.errMess = null;
+            state.gamesData = action.payload;
         },
         [fetchGames.rejected]: (state, action) => {
             state.isLoading = false;

@@ -3,8 +3,8 @@ import { Avatar, Icon, ListItem, Text } from '@rneui/themed';
 import { useSelector } from "react-redux";
 import { Button } from '@rneui/base';
 
-const GamesList = () => {
-    const GAMES = useSelector(state => state.games.gamesList.games);
+const GamesList = ({ navigation }) => {
+    const GAMES = useSelector(state => state.games.gamesData.games);    // state . slice . JSON-data . games-array
     const sortedGames = [...GAMES].sort((a, b) => (a.name > b.name) ? 1 : (a.name < b.name) ? -1 : 0);
 
     const renderGameItem = ({ item: game }) => {
@@ -15,10 +15,10 @@ const GamesList = () => {
             ? `${game.min_playtime}-${game.max_playtime}`
             : `${game.min_playtime}`;
         const minAge = `${game.min_age}`
-        const gameInfo = `${game.year_published}  |  ${players} Players  |  ${playTime} min.  |  ${minAge}+`
 
         return (
             <ListItem.Swipeable
+                onPress={ () => navigation.navigate('GameInfo', {game})}
                 minSlideWidth = {10}
                 leftWidth = {70}
                 leftContent={() => {
@@ -53,14 +53,14 @@ const GamesList = () => {
                     rounded
                     avatarStyle={styles.avatarStyle}
                 />
-                <ListItem.Content onPress={ () => navigation.navigate('GameInfo', {game})}>
+                <ListItem.Content>
                     <ListItem.Title style={styles.title}>{game.name}</ListItem.Title>
                     <ListItem.Subtitle>
                         <View style={{flex: 1, flexDirection: 'row', paddingTop: 5}}>
                             <View style={{flex:1}}>
                                 <Text style={styles.subtitle}>{game.year_published}</Text>
                             </View>
-                            <View style={{flexDirection: 'row', flex:2}}>
+                            <View style={{flexDirection: 'row', flex:1}}>
                                 <Icon
                                     color = '#F0F8FF'
                                     name = 'users'
@@ -69,7 +69,7 @@ const GamesList = () => {
                                 />
                                 <Text style={styles.subtitle}>{players}</Text>
                             </View>
-                            <View style={{flexDirection: 'row', flex:3}}>
+                            <View style={{flexDirection: 'row', flex:1}}>
                                 <Icon
                                     color = '#F0F8FF'
                                     name = 'clock-o'
@@ -78,7 +78,7 @@ const GamesList = () => {
                                 />
                                 <Text style={styles.subtitle}>{playTime} min.</Text>
                             </View>
-                            <View style={{flexDirection: 'row', flex:2}}>
+                            <View style={{flexDirection: 'row', flex:1}}>
                                 <Icon
                                     color = '#F0F8FF'
                                     name = 'child'
